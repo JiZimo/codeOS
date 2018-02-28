@@ -22,3 +22,24 @@ typedef struct{
     uint16_t firstFreeFileEntry;//第一个空闲文件入口头
     uint16_t firstFreeSector;//第一个空闲文件内容扇区
 }ArgumentTable;
+
+#define MAGICNUMBER 0x1AE3
+#define CUR_VERSION 0x0001
+
+/*大小端转换*/
+#define U8TO16(U81,U82) U81##U82
+
+#define U16HIGHBIT(U16)\
+    (uint8_t)((uint16_t)(U16)>>(sizeof(uint8_t)))
+
+/*将sector中的每个元素清零*/
+void clearSector(uint8_t sector[]);
+
+/*将一个扇区写入image中的第index个扇区*/
+void writeSector(FILE *image,uint8_t sector[],uint16_t index);
+
+/*读在file中由index指引的512字节*/
+void readSector(FILE *file,uint8_t sector[],uint16_t index);
+
+/*将ArguumentTable写入虚拟扇区中*/
+void writeTable(uint8_t sector[],ArgumentTable table);
